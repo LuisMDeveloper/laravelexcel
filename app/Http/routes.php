@@ -11,6 +11,8 @@
 |
 */
 
+use Maatwebsite\Excel\Facades\Excel;
+
 Route::get('/', function () {
     $orderItems = \App\OrderItem::paginate(10);
 
@@ -18,7 +20,14 @@ Route::get('/', function () {
 });
 
 Route::get('download', function () {
+	$orderItems = \App\OrderItem::all();
 
+	Excel::create("FileName", function ($excel) use ($orderItems) {
+		$excel->setTitle("Title");
+		$excel->sheet("Sheet 1", function ($sheet) use ($orderItems) {
+			$sheet->fromArray($orderItems);
+		});
+	})->download('xls');
 
 	return back();
 });
