@@ -12,5 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $orderItems = \App\OrderItem::paginate(10);
+
+    return view('welcome', compact('orderItems'));
+});
+
+Route::get('download', function () {
+
+
+	return back();
 });

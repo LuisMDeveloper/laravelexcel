@@ -23,4 +23,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the order items for the user.
+     */
+    public function orderItems()
+    {
+        return $this->hasMany('App\OrderItem');
+    }
 }
