@@ -20,14 +20,11 @@ Route::get('/', function () {
 });
 
 Route::get('download', function () {
-	//$orderItems = \App\OrderItem::all();
-	$orderItems = \App\OrderItem::select('name','price')->get();
+	$orderItems = \App\OrderItem::all();
 	Excel::create("FileName", function ($excel) use ($orderItems) {
 		$excel->setTitle("Title");
 		$excel->sheet("Sheet 1", function ($sheet) use ($orderItems) {
-			$sheet->fromArray($orderItems, null, 'A2', false, false);
-
-			$sheet->row(1, array("Name", "Price"));
+			$sheet->loadView('export')->with('orderItems', $orderItems);;
 		});
 	})->download('xls');
 
